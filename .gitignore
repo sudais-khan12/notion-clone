@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+service_key.json
 .pnp.*
 .yarn/*
 !.yarn/patches
