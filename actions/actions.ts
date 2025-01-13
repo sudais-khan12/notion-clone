@@ -3,10 +3,6 @@
 import { admindb } from "@/firebase-admin";
 import liveblocks from "@/lib/liveBlocks";
 import { auth } from "@clerk/nextjs/server";
-import { useUser } from "@clerk/nextjs";
-
-const { user } = useUser();
-const userEmail = user?.primaryEmailAddress?.emailAddress;
 
 export async function createDocument() {
   auth.protect();
@@ -131,6 +127,9 @@ export async function sendEmail(
   subject: string,
   content: string
 ): Promise<SendEmailResponse> {
+  const { sessionClaims } = await auth();
+  const userEmail = sessionClaims?.email;
+
   if (!userEmail) {
     console.error("User email not found.");
     return { success: false };
