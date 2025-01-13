@@ -1,17 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { GithubIcon } from "lucide-react";
+import { MailIcon } from "lucide-react";
+import Link from "next/link";
 
 const About = () => {
   return (
     <div className="flex-1 bg-white p-5 h-full rounded-2xl">
       {/* Top Button Section */}
       <div className="w-full text-end">
-        <a href={"https://github.com/sudais-khan12"}>
-          <Button>
+        <Link href="/about/contact">
+          {" "}
+          <Button className="p-2 w-full">
             {" "}
-            <GithubIcon/> GitHub
-          </Button>
-        </a>
+            <MailIcon /> Contact{" "}
+          </Button>{" "}
+        </Link>
       </div>
       {/* About Us Section */}
       <div className="flex max-w-6xl mx-auto flex-col mb-10">

@@ -3,7 +3,10 @@
 import { admindb } from "@/firebase-admin";
 import liveblocks from "@/lib/liveBlocks";
 import { auth } from "@clerk/nextjs/server";
-import { Resend } from "resend";
+import { useUser } from "@clerk/nextjs";
+
+const { user } = useUser();
+const userEmail = user?.primaryEmailAddress?.emailAddress;
 
 export async function createDocument() {
   auth.protect();
@@ -119,35 +122,35 @@ export async function leaveRoom(roomId: string, email: string) {
   }
 }
 
-export async function sendEmail(subject: string, content: string) {
-  auth.protect();
+interface SendEmailResponse {
+  success: boolean; // Indicates whether the email was sent successfully
+  error?: unknown; // Optional error object
+}
 
-  const { sessionClaims } = await auth();
-  const email = sessionClaims?.email;
-
-  if (!email) {
-    // throw new Error("User email is not available in session claims.");
+export async function sendEmail(
+  subject: string,
+  content: string
+): Promise<SendEmailResponse> {
+  if (!userEmail) {
+    console.error("User email not found.");
     return { success: false };
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
   try {
-    const response = await resend.emails.send({
-      from: email,
-      to: "sudaiskh31@gmail.com", // Replace with actual recipient email
-      subject,
-      html: content,
+    await fetch("/api/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: userEmail, // Sender's email
+        subject, // Email subject
+        content, // Email content (HTML)
+      }),
     });
 
-    console.log("Email sent successfully:", response);
     return { success: true };
   } catch (error) {
-    console.error("Error sending email:", error);
-
-    // Handle specific errors (e.g., network errors, authentication errors)
-    // and provide more informative error messages to the user
-
-    return { success: false };
+    return { success: false, error };
   }
 }

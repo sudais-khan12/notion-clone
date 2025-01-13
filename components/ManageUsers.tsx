@@ -65,7 +65,7 @@ const ManageUsers = () => {
     });
   };
 
-  if (usersInRoom?.docs.length > 1) {
+  if (usersInRoom && usersInRoom.docs.length > 1) {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <Button asChild variant={"outline"}>

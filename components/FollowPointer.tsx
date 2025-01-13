@@ -5,8 +5,8 @@ const FollowPointer = ({
   y,
   info,
 }: {
-  x: string;
-  y: string;
+  x: number;
+  y: number;
   info: { name: string; email: string; avatar: string };
 }) => {
   const color = stringToColor(info.email || "1");
