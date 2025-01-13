@@ -136,7 +136,13 @@ export async function sendEmail(
   }
 
   try {
-    await fetch("/api/email", {
+    console.log("Sending request to /api/email with data:", {
+      from: userEmail,
+      subject,
+      content,
+    });
+
+    const response = await fetch(`${process.env.HOST_URL}/api/email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -148,8 +154,17 @@ export async function sendEmail(
       }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("API Error:", errorData);
+      return { success: false, error: errorData };
+    }
+
+    const data = await response.json();
+    console.log("API Response:", data);
     return { success: true };
   } catch (error) {
+    console.error("Fetch Error:", error);
     return { success: false, error };
   }
 }

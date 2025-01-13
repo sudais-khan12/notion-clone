@@ -6,10 +6,10 @@ const About = () => {
   return (
     <div className="flex-1 bg-white p-5 h-full rounded-2xl">
       {/* Top Button Section */}
-      <div className="w-full text-end">
+      <div className="text-end w-full">
         <Link href="/about/contact">
           {" "}
-          <Button className="p-2 w-full">
+          <Button className="p-2 ">
             {" "}
             <MailIcon /> Contact{" "}
           </Button>{" "}

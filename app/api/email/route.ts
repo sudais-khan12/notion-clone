@@ -3,11 +3,16 @@ import { sendEmail } from "@/utils/sendEmail"; // Adjust the import path
 
 export async function POST(request: Request) {
   try {
+    console.log("Received request at /api/email");
+
     const body = await request.json();
     const { from, subject, content } = body;
 
+    console.log("Request body:", { from, subject, content });
+
     // Validate the input
     if (!from || !subject || !content) {
+      console.error("Missing required fields");
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -22,6 +27,7 @@ export async function POST(request: Request) {
       html: content,
     });
 
+    console.log("Email sent successfully");
     return NextResponse.json(
       { message: "Email sent successfully" },
       { status: 200 }
