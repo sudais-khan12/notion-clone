@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"; // Assuming a custom input component
+import { Input } from "@/components/ui/input";
 import { ArrowLeftIcon, SendHorizonalIcon } from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "./ui/textarea";
